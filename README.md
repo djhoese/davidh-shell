@@ -38,6 +38,7 @@ Prerequisites:
   git config --global user.signingkey ABC123
   git config --global user.name "David Hoese"
   git config --global user.name <email>
+  git config --global core.editor vim
   ```
 
 * Install git lfs (`sudo apt install git-lfs`):
