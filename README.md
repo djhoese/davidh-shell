@@ -39,3 +39,10 @@ Prerequisites:
   git config --global user.name "David Hoese"
   git config --global user.name <email>
   ```
+
+* Install git lfs (`sudo apt install git-lfs`):
+
+  ```bash
+  git lfs install
+  ```
+
