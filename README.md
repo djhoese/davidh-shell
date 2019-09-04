@@ -29,3 +29,13 @@ Prerequisites:
 * `bash`: `~/.bashrc` additions
 * `bin`: Utility scripts
 
+## Other Common Steps
+
+* Set up git:
+
+  ```bash
+  git config --global commit.gpgsign true
+  git config --global user.signingkey ABC123
+  git config --global user.name "David Hoese"
+  git config --global user.name <email>
+  ```
