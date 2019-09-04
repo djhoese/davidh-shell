@@ -38,4 +38,3 @@ Host RH6B-*
 # example host-specific forwarding, for Transmit et al
 Host clarke.ssec
   LocalForward 8019 localhost:5909
-Include /home/davidh/repos/git/davidh-shell/ssh/osx_only

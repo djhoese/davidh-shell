@@ -29,11 +29,11 @@ if [ ! -f ~/.ssh/key_list ]; then
 fi
 
 if [ ! -f ~/.ssh/config ]; then
+    if is_osx; then
+        echo "Include $SCRIPT_HOME/ssh/osx_only" >> $SCRIPT_HOME/ssh/config
+    fi
     ln -s $SCRIPT_HOME/ssh/config $HOME/.ssh/config
 else
     echo ".ssh/config already exists"
 fi
 
-if [ is_osx ]; then
-    echo "Include $SCRIPT_HOME/ssh/osx_only" >> $SCRIPT_HOME/ssh/config
-fi
