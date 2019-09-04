@@ -1,0 +1,41 @@
+Include ~/.ssh/key_list
+
+Protocol 2
+CheckHostIP no
+AddressFamily any
+StrictHostKeyChecking ask
+TCPKeepAlive yes
+AddKeysToAgent yes
+ControlPath ~/.ssh/control/socket-%r-%h-%p
+ControlMaster auto
+Ciphers aes256-ctr,aes192-ctr,aes128-ctr
+
+Host ash.ssec.wisc.edu
+  Port 22
+  #Port 443
+  User davidh
+  Compression yes
+  ForwardX11 no
+  XAuthLocation=/usr/bin/false
+  ServerAliveInterval 16
+  ControlPersist 1024
+
+Host *.ssec
+  # _nc_ssec bash script runs nc directly if we're on ssec LAN, else runs ssh -q ash nc 
+  #ProxyCommand /Users/davidh/bin/_nc_ssec %h.wisc.edu
+  ProxyCommand ssh -q ash.ssec.wisc.edu nc %h.wisc.edu 22
+  Compression no
+  ServerAliveInterval 64
+  ControlPersist 32
+
+# ssh RH6B-rayg.local (access VM implicitly via jpss-cloud via ash)
+Host RH6B-* 
+  ProxyCommand ssh -Aq jpss-cloud.ssec nc %h 22
+  Compression no
+  User RH6B
+  ControlPersist 32
+
+# example host-specific forwarding, for Transmit et al
+Host clarke.ssec
+  LocalForward 8019 localhost:5909
+Include /home/davidh/repos/git/davidh-shell/ssh/osx_only

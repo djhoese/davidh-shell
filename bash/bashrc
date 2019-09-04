@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+SCRIPT_HOME="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# utility for the rest of this script
+is_osx() {
+    [[ $OSTYPE =~ darwin ]]
+}
+
+# simplified change to git repository
+cdg() {
+    cd $HOME/repos/git/$1
+}
+
+# PATH
+export PATH="${SCRIPT_HOME}/../bin:$PATH"
+
+### Environment Variables ###
+# Git Stuff
+export GIT_AUTHOR_EMAIL=david.hoese@ssec.wisc.edu
+export GIT_COMMITTER_EMAIL=david.hoese@ssec.wisc.edu
+# Editor used by svn/git
+export EDITOR=vim
+
+
+### Load Aliases ###
+if is_osx; then
+    # Set some terminal colors
+    export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+    export CLICOLOR=1
+    # Colored listing
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
+
+if [ -f ${SCRIPT_HOME}/bash_aliases ]; then
+    . ${SCRIPT_HOME}/bash_aliases
+fi
+
+
+### Extra Functions ###
+
+_mountpoint() {
+  dest_host=$(echo $1 |cut -d '.' -f 1)
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    echo "/Volumes/$dest_host"
+  else
+    echo "$HOME/mnt/$dest_host"
+  fi
+}
+
+_mountdest() {
+  dest_host=$(echo $1 |cut -d : -f 1)
+  dest_dir=$(echo $1 |cut -d : -f 2)
+  test -n "$dest_dir" && dest_dir=/
+  echo ${dest_host}:${dest_dir}
+}
+
+sshfs_mount() {
+  hd=$(_mountdest $1)
+  test -n "$hd" || return
+  shift
+  mp=$1
+  test -n "$mp" && shift
+  dest_host=$(echo $hd |cut -d : -f 1)
+  test -n "$mp" || mp=$(_mountpoint $dest_host)
+  echo $hd $mp
+  test -d $mp || mkdir -p $mp
+  mount |grep " $mp " && return
+  opts="uid=$UID,auto_cache,transform_symlinks,delay_connect,reconnect"
+  if [[ $(uname -s) == "Darwin" ]]; then
+    opts="$opts,volname=$(basename $mp)"
+  else
+    opts="$opts,allow_others"
+  fi
+  if [ -n "$*" ]; then
+    opts="$opts,$*"
+  fi
+  echo "+++ sshfs $hd $mp -o $opts"
+  sshfs $hd $mp -o $opts
+}
+

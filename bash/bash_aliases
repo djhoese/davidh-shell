@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Use directory stack, assume I won't use more than 5
+alias d='dirs -v'
+alias d1='cd `dirs -l +1`'
+alias d2='cd `dirs -l +2`'
+alias d3='cd `dirs -l +3`'
+alias d4='cd `dirs -l +4`'
+alias d5='cd `dirs -l +5`'
+alias +='pushd .'
+alias _='popd'
+
