@@ -14,6 +14,10 @@ cdg() {
 
 # PATH
 export PATH="${SCRIPT_HOME}/../bin:$PATH"
+LOCAL_RUBY="${HOME}/.gem/ruby/2.5.0/bin"
+if [ -d $LOCAL_RUBY ]; then
+    export PATH="${PATH}:${LOCAL_RUBY}"
+fi
 
 ### Environment Variables ###
 # Git Stuff

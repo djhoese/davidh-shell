@@ -14,3 +14,6 @@ alias d5='cd `dirs -l +5`'
 alias +='pushd .'
 alias _='popd'
 
+# software specific
+alias kubectl='microk8s.kubectl'
+alias helm='microk8s.helm3'
