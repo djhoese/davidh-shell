@@ -10,6 +10,15 @@ ControlPath ~/.ssh/control/socket-%r-%h-%p
 ControlMaster auto
 Ciphers aes256-ctr,aes192-ctr,aes128-ctr
 
+Host *.github.com
+  ControlMaster no
+Host github.com
+  ControlMaster no
+Host *.gitlab.com
+  ControlMaster no
+Host gitlab.eumetsat.int
+  ControlMaster no
+
 Host ash.ssec.wisc.edu
   Port 22
   #Port 443
@@ -23,7 +32,8 @@ Host ash.ssec.wisc.edu
 Host *.ssec
   # _nc_ssec bash script runs nc directly if we're on ssec LAN, else runs ssh -q ash nc 
   #ProxyCommand /Users/davidh/bin/_nc_ssec %h.wisc.edu
-  ProxyCommand ssh -q ash.ssec.wisc.edu nc %h.wisc.edu 22
+  #ProxyCommand ssh -q ash.ssec.wisc.edu nc %h.wisc.edu 22
+  ProxyCommand ssh -W %h.wisc.edu:22 ash.ssec.wisc.edu
   Compression no
   ServerAliveInterval 64
   ControlPersist 32

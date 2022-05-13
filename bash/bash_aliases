@@ -15,5 +15,8 @@ alias +='pushd .'
 alias _='popd'
 
 # software specific
-alias kubectl='microk8s.kubectl'
-alias helm='microk8s.helm3'
+#alias kubectl='microk8s.kubectl'
+#alias helm='microk8s.helm3'
+
+# git
+git config --global alias.gone "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print \$1}' | xargs git branch -D; }; f"

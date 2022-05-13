@@ -14,9 +14,18 @@ cdg() {
 
 # PATH
 export PATH="${SCRIPT_HOME}/../bin:$PATH"
-LOCAL_RUBY="${HOME}/.gem/ruby/2.5.0/bin"
+LOCAL_RUBY="${HOME}/.gem/ruby/2.7.0/bin"
 if [ -d $LOCAL_RUBY ]; then
     export PATH="${PATH}:${LOCAL_RUBY}"
+fi
+
+# kubectl krew
+if [ -d ${HOME}/.krew/bin ]; then
+    export PATH="${PATH}:${HOME}/.krew/bin"
+fi
+
+if [ -d ${HOME}/go/bin ]; then
+    export PATH="${PATH}:${HOME}/go/bin"
 fi
 
 ### Environment Variables ###
@@ -85,3 +94,8 @@ sshfs_mount() {
   sshfs $hd $mp -o $opts
 }
 
+# Better Bash History
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
